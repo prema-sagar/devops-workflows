@@ -12,8 +12,8 @@ PR_NUMBER = os.environ["PR_NUMBER"]
 MAX_LINES = int(os.environ.get("MAX_DIFF_LINES", "1500"))
 
 # Models
-BEDROCK_MODEL = "anthropic.claude-sonnet-4-20250514-v1:0"
-DIRECT_MODEL  = "claude-sonnet-4-20250514"
+BEDROCK_MODEL = "arn:aws:bedrock:us-east-1:129860896370:application-inference-profile/huylsd5uiphs"
+DIRECT_MODEL  = "MODEL"
 
 SYSTEM_PROMPT = """You are an expert code reviewer for an enterprise DevOps team.
 Review the PR diff provided and respond ONLY with a valid JSON object.
