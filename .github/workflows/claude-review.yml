@@ -1,80 +1,18 @@
-# ================================================================
-# FILE: devops-workflows/.github/workflows/claude-review.yml
-#
-# ⚠️  BEFORE SAVING: Replace YOUR-USERNAME on line 57
-#     with your actual GitHub username.
-#     Example:  repository: prema123/devops-workflows
-# ================================================================
-
-name: Claude PR Review (Reusable)
+name: PR Checks
 
 on:
-  workflow_call:
-    inputs:
-      fail_on_critical:
-        description: 'Block merge if CRITICAL issues found'
-        type: boolean
-        default: true
-      model_provider:
-        description: 'bedrock or anthropic'
-        type: string
-        default: 'bedrock'
-      max_diff_lines:
-        description: 'Max lines of diff to send to Claude'
-        type: number
-        default: 1500
-    secrets:
-      GH_TOKEN:
-        required: true
-      AWS_ACCESS_KEY_ID:
-        required: false
-      AWS_SECRET_ACCESS_KEY:
-        required: false
-      AWS_REGION:
-        required: false
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
-  claude-review:
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: read
-
-    steps:
-      - name: Checkout app code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Checkout devops-workflows scripts
-        uses: actions/checkout@v4
-        with:
-          repository: prema-sagar/devops-workflows   # ⚠️ CHANGE THIS LINE
-          path: _scripts
-          token: ${{ secrets.GH_TOKEN }}
-
-      - name: Install Python dependencies
-        run: pip install -r _scripts/scripts/requirements.txt
-
-      - name: Run Claude PR Review
-        env:
-          GH_TOKEN:              ${{ secrets.GH_TOKEN }}
-          AWS_ACCESS_KEY_ID:     ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION:    ${{ secrets.AWS_REGION }}
-          PR_NUMBER:             ${{ github.event.pull_request.number }}
-          REPO:                  ${{ github.repository }}
-          MODEL_PROVIDER:        ${{ inputs.model_provider }}
-          MAX_DIFF_LINES:        ${{ inputs.max_diff_lines }}
-        run: python _scripts/scripts/claude_pr_review.py
-
-      - name: Quality Gate
-        env:
-          FAIL_ON_CRITICAL:   ${{ inputs.fail_on_critical }}
-          REVIEW_RESULT_FILE: review_result.json
-        run: python _scripts/scripts/quality_gate.py
+  ai-review:
+    uses: prema-sagar/devops-workflows/.github/workflows/claude-review.yml@main
+    with:
+      fail_on_critical: true
+      model_provider: 'bedrock'
+      max_diff_lines: 2000
+    secrets: inherit
