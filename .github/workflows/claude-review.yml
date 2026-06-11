@@ -54,7 +54,7 @@ jobs:
       - name: Checkout devops-workflows scripts
         uses: actions/checkout@v4
         with:
-          repository: YOUR-USERNAME/devops-workflows   # ⚠️ CHANGE THIS LINE
+          repository: prema-sagar/devops-workflows   # ⚠️ CHANGE THIS LINE
           path: _scripts
           token: ${{ secrets.GH_TOKEN }}
 
