@@ -11,7 +11,8 @@ REPO      = os.environ["REPO"]
 PR_NUMBER = os.environ["PR_NUMBER"]
 MAX_LINES = int(os.environ.get("MAX_DIFF_LINES", "1500"))
 
-BEDROCK_MODEL = "anthropic.claude-3-5-sonnet-20241022-v2:0"
+# Models
+BEDROCK_MODEL = "anthropic.claude-sonnet-4-20250514-v1:0"
 DIRECT_MODEL  = "claude-sonnet-4-20250514"
 
 SYSTEM_PROMPT = """You are an expert code reviewer for an enterprise DevOps team.
