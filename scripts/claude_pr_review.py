@@ -12,7 +12,7 @@ PR_NUMBER = os.environ["PR_NUMBER"]
 MAX_LINES = int(os.environ.get("MAX_DIFF_LINES", "1500"))
 
 # Models
-BEDROCK_MODEL = ""
+BEDROCK_MODEL = os.environ["BEDROCK_MODEL"]
 DIRECT_MODEL  = "MODEL"
 
 SYSTEM_PROMPT = """You are an expert code reviewer for an enterprise DevOps team.
