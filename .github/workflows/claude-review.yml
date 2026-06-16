@@ -71,6 +71,7 @@ jobs:
           REPO:                  ${{ github.repository }}
           MODEL_PROVIDER:        ${{ inputs.model_provider }}
           MAX_DIFF_LINES:        ${{ inputs.max_diff_lines }}
+          BEDROCK_MODEL:         ${{ secrets.BEDROCK_MODEL }}
         run: python _scripts/scripts/claude_pr_review.py
 
       - name: Quality Gate
